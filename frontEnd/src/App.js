@@ -1,13 +1,12 @@
 import React from 'react';
-import Navbar from "./features/Navbar/Navbar";
 import {
   createBrowserRouter,
-  RouterProvider,
-  Route,
-  Link,
+  RouterProvider
 } from "react-router-dom";
 
 import Homepage from "./Pages/HomePage";
+import JobDetailsPage from './Pages/JobDetailsPage';
+import LoginPage from './Pages/LoginPage';
 
 
 const router = createBrowserRouter([
@@ -18,8 +17,12 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "about",
-    element: <div>About</div>,
+    path: "jobdetails",
+    element: <JobDetailsPage></JobDetailsPage>,
+  },
+  {
+    path: "login",
+    element: <LoginPage></LoginPage>,
   },
 ]);
 

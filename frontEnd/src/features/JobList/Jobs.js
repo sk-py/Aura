@@ -1,7 +1,7 @@
 import React from "react";
 import { Fragment, useState } from "react";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
-import { XMarkIcon, MapPinIcon } from "@heroicons/react/24/outline";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 import {
   ChevronDownIcon,
   FunnelIcon,
@@ -9,20 +9,12 @@ import {
   PlusIcon,
   Squares2X2Icon,
 } from "@heroicons/react/20/solid";
+import { Link } from "react-router-dom";
 
 const sortOptions = [
-  { name: "Most Popular", href: "#", current: true },
-  { name: "Best Rating", href: "#", current: false },
-  { name: "Newest", href: "#", current: false },
-  { name: "Price: Low to High", href: "#", current: false },
-  { name: "Price: High to Low", href: "#", current: false },
-];
-const subCategories = [
-  { name: "Totes", href: "#" },
-  { name: "Backpacks", href: "#" },
-  { name: "Travel Bags", href: "#" },
-  { name: "Hip Bags", href: "#" },
-  { name: "Laptop Sleeves", href: "#" },
+  { name: "Most Recent", href: "#", current: false },
+  { name: "Salary: Low to High", href: "#", current: false },
+  { name: "Salary: High to Low", href: "#", current: false },
 ];
 const filters = [
   {
@@ -326,12 +318,15 @@ export default function Jobs() {
                   {/* Your content */}
                   {filters[1].options.map(() => {
                     return (
+                      <Link to="/jobdetails">
                       <div className="flex justify-between p-3 items-start gap-2">
-                        <div >
+                        <div>
                           <h2 className="text-indigo-600 font-semibold text-lg">
                             Front End Developer
                           </h2>
-                          <h3 className="">Renesas Electronics India Pvt. Ltd.</h3>
+                          <h3 className="">
+                            Renesas Electronics India Pvt. Ltd.
+                          </h3>
 
                           <div className="flex divide-x-2">
                             <div className="pe-5">
@@ -392,6 +387,7 @@ export default function Jobs() {
                           </div>
                         </div>
                       </div>
+                      </Link>
                     );
                   })}
                 </div>

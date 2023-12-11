@@ -1,16 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import Logo from "../../assets/logo.png";
-
+import { Link } from "react-router-dom";
+// #0b70ff
+// #e2eaf8
 export default function Navbar() {
-  const [menu, setMenu] = useState(true);
   const toggleMenu = () => {
-    // document.getElementById("mobile-menu").classList.toggle("hidden")
-    if (document.getElementById("mobile-menu").classList.contains("-left-96")) {
-      document.getElementById("mobile-menu").classList.remove("-left-96");
+    if (document.getElementById("mobile-menu").classList.contains("left-[-50rem]")) {
+      document.getElementById("mobile-menu").classList.remove("left-[-50rem]");
       document.getElementById("mobile-menu").classList.add("left-0");
     } else {
       document.getElementById("mobile-menu").classList.remove("left-0");
-      document.getElementById("mobile-menu").classList.add("-left-96");
+      document.getElementById("mobile-menu").classList.add("left-[-50rem]");
     }
   };
   return (
@@ -18,13 +18,13 @@ export default function Navbar() {
       {/* For Desktop */}
       <nav className="w-full flex items-center justify-between px-2 py-3 sm:px-5 sm:py-1">
         <ul className="flex items-center gap-4">
-          <li className="flex items-center gap- mr-10">
+          <Link to="/" className="flex items-center gap- mr-10">
             <img className="w-10 sm:w-16 rounded-full" src={Logo} alt="" />
             <p className="text-xl font-semibold sm:text-2xl">JobTrek</p>
-          </li>
-          <li className="hidden sm:block hover:text-[#0b70ff] cursor-pointer transition-colors  text-[#0b70ff]">
+          </Link>
+          <Link to="/" className="hidden sm:block hover:text-[#0b70ff] cursor-pointer transition-colors  text-[#1967d2]">
             Home
-          </li>
+          </Link>
           <li className="hidden sm:block hover:text-[#0b70ff] cursor-pointer transition-colors ">
             Find jobs
           </li>
@@ -36,18 +36,18 @@ export default function Navbar() {
           </li>
         </ul>
         <ul className="hidden sm:flex items-center gap-5">
-          <li className="text-[#0b70ff] bg-blue-100 px-2 py-1 rounded-md hover:bg-blue-700 hover:text-white transition-colors duration-300 ease-in cursor-pointer">
+          <Link to="/login" className="text-[#1967d2] bg-[#e2eaf8] px-2 py-1 rounded-md hover:bg-blue-700 hover:text-white transition-colors duration-300 ease-in cursor-pointer">
             Login / Signup
-          </li>
-          <li className="bg-blue-700 px-3 py-1 rounded-md text-white hover:bg-blue-800 transition-all duration-300 cursor-pointer">
+          </Link>
+          <li className="bg-[#1967d2] px-3 py-1 rounded-md text-white hover:bg-blue-800 transition-all duration-300 cursor-pointer">
             Post a Job
           </li>
         </ul>
         {/* for Mobile */}
         <div className="flex gap-4 sm:hidden">
-          <button className="text-[#2d74d6] bg-blue-100 px-2 rounded-sm">
+          <Link to="/login" className="text-[#1967d2] bg-[#e2eaf8] px-2 rounded-sm">
             Login
-          </button>
+          </Link>
           <svg
             onClick={toggleMenu}
             xmlns="http://www.w3.org/2000/svg"
@@ -69,7 +69,7 @@ export default function Navbar() {
       {/* Mobile menu */}
       <div
         id="mobile-menu"
-        className="bg-[#0000003e] -left-96 transition-all duration-500 sm:hidden absolute top-0 w-screen h-screen"
+        className="bg-[#0000003e] left-[-50rem] transition-all duration-500 sm:hidden absolute top-0 w-screen h-screen"
       >
         <ul
           id="mobile-menu-item"
@@ -96,12 +96,12 @@ export default function Navbar() {
               />
             </svg>
           </li>
-          <li className="px-4 text-base py-2 text-blue-500 bg-teal-50">Home</li>
+          <Link tp="/" className="px-4 text-base py-2 text-[#0b70ff] bg-teal-50">Home</Link>
           <li className="px-4 text-base py-2">Jobs</li>
           <li className="px-4 text-base py-2">Companies</li>
           <li className="px-4 text-base py-2">Application</li>
           <li className="px-4 text-base py-2">Profile</li>
-          <li className="mx-4 my-5 text-center bg-blue-700 py-1 rounded-md text-white hover:bg-blue-800 transition-all duration-300 cursor-pointer">
+          <li className="mx-4 my-5 text-center bg-[#0b70ff] py-1 rounded-md text-white hover:bg-blue-800 transition-all duration-300 cursor-pointer">
             Post a Job
           </li>
         </ul>

@@ -1,34 +1,78 @@
 const express = require("express");
 const router = express.Router();
+const Recruiter = require("../models/Recruiter");
 const User = require("../models/Users");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const key = "Aura";
 
-router.post("/register", async (req, res) => {
-  const { fullName, email, password } = req.body;
-  if (!fullName || !email || !password) {
-    return res.status(400).json({ err: "Invalid request body" });
+// Create Account for Normal user
+// EndPoint http://localhost:9000/api/auth/user/signup
+router.post("/user/signup", async (req, res) => {
+  const { firstName, lastName, email, password } = req.body;
+  if (!firstName || !email || !password || !lastName) {
+    return res.status(400).json({ err: "field cannot be empty" });
   }
-  const alreadyExist = await User.findOne({ email: email });
-  if (alreadyExist) {
-    return res
-      .status(400)
-      .json({ err: "A user with this email already exist" });
+  try {
+    const alreadyExist = await User.findOne({ email: email });
+    if (alreadyExist) {
+      return res
+        .status(400)
+        .json({ err: "A user with this email already exist" });
+    }
+  } catch (error) {
+    return res.end(error);
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  const userDetails = { fullName, email, password: hashedPassword };
+  const userDetails = { firstName, lastName, email, password: hashedPassword };
   const newUser = await User.create(userDetails);
   newUser.password;
   res.status(201).json({
     user: {
-      fullName,
+      firstName,
+      lastName,
       email,
     },
   });
 });
 
+// Create Account for Recruiter
+// EndPoint http://localhost:9000/api/auth/recruiter/signup
+router.post("/recruiter/signup", async (req, res) => {
+  const { firstName, lastName, email, password ,companyName} = req.body;
+  if (!firstName || !email || !password || !lastName || !companyName) {
+    return res.status(400).json({ err: "field cannot be empty" });
+  }
+  try {
+    const alreadyExist = await Recruiter.findOne({ email: email });
+    if (alreadyExist) {
+      return res
+        .status(400)
+        .json({ err: "A recruiter with this email already exist" });
+    }
+  } catch (error) {
+    return res.end(error);
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  const userDetails = { firstName,lastName, email, password: hashedPassword,companyName };
+  const newUser = await Recruiter.create(userDetails);
+  // newUser.password;
+  res.status(201).json({
+    user: {
+      firstName,
+      lastName,
+      email,
+      companyName
+    },
+  });
+});
+
+// Login for both 
+// EndPoint http://localhost:9000/api/auth/login
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
@@ -36,15 +80,29 @@ router.post("/login", async (req, res) => {
   }
   const userExist = await User.findOne({ email: email });
   if (!userExist) {
-    res.status(400).json({ err: "Email not registered" });
+    const recruiterExist = await Recruiter.findOne({ email: email });
+    console.log(recruiterExist);
+    if(!recruiterExist){
+      res.status(400).json({ err: "Invalid email or password" });
+    }
+    const validated = await bcrypt.compare(password, recruiterExist.password);
+    if (!validated) {
+      res.status(400).json({ err: "Invalid email or password" });
+    } else {
+      var token = jwt.sign({ email:recruiterExist.email }, key);
+      res.status(200).json({ msg: "Logged In successfully",name:recruiterExist.firstName,token });
+    }
   } else {
     const validated = await bcrypt.compare(password, userExist.password);
     if (!validated) {
       res.status(400).json({ err: "Invalid email or password" });
     } else {
-      res.status(200).json({ err: "Logged In successfully" });
+      var token = jwt.sign({ email:userExist.email }, key);
+      res.status(200).json({ msg: "Logged In successfully",name:userExist.firstName,token });
+
     }
   }
+  
 });
 
 module.exports = router;
