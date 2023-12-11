@@ -22,14 +22,10 @@ const JobSchema = mongoose.Schema({
       type: String,
     },
   ],
-  link: {
-    type: String,
-  },
   jobType: {
     type: {
       type: String,
     },
-
     jobLocation: {
       type: String,
     },
@@ -39,6 +35,12 @@ const JobSchema = mongoose.Schema({
   },
   postedBy: {
     type: String,
+  },
+  link: {
+    type: String,
+  },
+  status: {
+    type: String, ////Routes Implementation pending , Updation of jobs Status by recruiter Active/InActive
   },
 });
 const Jobs = mongoose.model("jobs", JobSchema);

@@ -1,10 +1,11 @@
 const mongoose = require("mongoose");
-const AppliedJobs = mongoose.Schema({
-  userID: {
+const AppliedJobSchema = mongoose.Schema({
+  userId: {
     type: String,
     required: true,
   },
   jobId: {
+    ///Will be coming from jobs collection
     type: String,
     required: true,
   },
@@ -12,3 +13,5 @@ const AppliedJobs = mongoose.Schema({
     type: String,
   },
 });
+const AppliedJobs = mongoose.model("JobApplications", AppliedJobSchema);
+module.exports = AppliedJobs;
